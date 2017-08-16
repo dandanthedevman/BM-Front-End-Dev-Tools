@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 
+  <!--
     normalize.css removes cross-browser differences in defaults, e.g.,
     differences in how form elements appear between Firefox and IE
     See: http://necolas.github.com/normalize.css/
@@ -16,8 +16,38 @@
   <script src="/js/application.js"></script>
 
   <title></title>
+
+  <header>
+
+    <nav class = "header_links">
+        <% if logged_in? %>
+
+
+          <form action="/sessions/<%= current_user.id %>" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Log_out">
+          </form>
+         
+          <a class= "nav-links" href="/sessions/<%= current_user.id %>"><%= current_user.user_name %></a>
+        <% else %>
+
+          <a class= "nav-links" href="/sessions/new">Login</a>
+          <a class= "nav-links" href="/users/new">Sign Up</a>
+        <% end %>
+
+    </nav>
+
+  </header>
 </head>
 <body>
+  <% if @errors %>
+    <ul>
+      <% @errors.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <%= yield %>
 </body>
 </html>
